@@ -1,7 +1,25 @@
-//1 Get computer choice
-//1a Write function getComputerChoice()
-//1b Function randomly returns rock, paper, or scissors
+const rock = document.querySelector(".rock");
+const paper = document.querySelector(".paper");
+const scissors = document.querySelector(".scissors");
+let humanScore = 0;
+let compScore = 0;
+let drawScore = 0;
+let round = 0;
+function roundCount() {
+  document.querySelector(".rnd-number").textContent = round;
+}
 
+rock.addEventListener("click", () => {
+  playRound("rock", getComputerChoice());
+});
+paper.addEventListener("click", () => {
+  playRound("paper", getComputerChoice());
+});
+scissors.addEventListener("click", () => {
+  playRound("scissors", getComputerChoice());
+});
+
+//1 Get computer choice
 function getComputerChoice() {
   let choice = Math.floor(Math.random() * 3);
   if (choice === 0) {
@@ -14,46 +32,62 @@ function getComputerChoice() {
 }
 
 //2 Play single round of RPS => playRound()
-//2a Use player selection and computer choice
-//2b Return string that declares winner
-//2c make player selection case-insensitive
-let humanScore = 0;
-let compScore = 0;
-let drawScore = 0;
-
 function playRound(playerChoice, computerChoice) {
+  // console.log("PlayerChoice is " + playerChoice);
+  // console.log("ComputerChoice is " + computerChoice);
+  // console.log(humanScore, compScore);
+
   if (
     (playerChoice == "rock" && computerChoice == "scissors") ||
     (playerChoice == "paper" && computerChoice == "rock") ||
     (playerChoice == "scissors" && computerChoice == "paper")
   ) {
     humanScore += 1;
-    return "Human wins!";
+    document.querySelector(".human-score").textContent = humanScore;
+    round += 1;
+    roundCount();
+    checkWinner();
+    return;
   } else if (playerChoice === computerChoice) {
     drawScore += 1;
-    return "Draw!";
+    document.querySelector(".draw-score").textContent = drawScore;
+    round += 1;
+    roundCount();
+    checkWinner();
+    return;
   } else {
     compScore += 1;
-    return "Computer wins.";
+    document.querySelector(".comp-score").textContent = compScore;
+    round += 1;
+    roundCount();
+    checkWinner();
+    return;
   }
 }
 
-//3 Write new function called game() that plays 5 rounds of RPS using playRound() function
-//3a Use a for loop
-function game() {
-  for (let i = 0; i < 5; i++) {
-    // const playerChoice = prompt("Rock, Paper or Scissors?").toLowerCase();
-    const computerChoice = getComputerChoice();
-    playRound(playerChoice, computerChoice);
-  }
-  if (humanScore > compScore) {
-    return `Human scored ${humanScore} and computer scored ${compScore}. There were ${drawScore} draws. Human is the winner!`;
-  } else if (humanScore < compScore) {
-    return `Human scored ${humanScore} and computer scored ${compScore}. There were ${drawScore} draws. Computer is the winner!`;
-  } else if (humanScore === compScore) {
-    return `Human scored ${humanScore} and computer scored ${compScore}. There were ${drawScore} draws. Draw!`;
-  }
+// Check for winner
+function checkWinner() {
+  if (round === 5) {
+    if (humanScore > compScore) {
+      document.querySelector(".win").textContent = "Human!";
+    } else if (humanScore < compScore) {
+      document.querySelector(".win").textContent = "Comp!";
+    } else if (humanScore === compScore) {
+      document.querySelector(".win").textContent = "Draw";
+    }
+  } else return;
 }
 
-console.log(game());
-// console.log(humanScore, compScore);
+// Reset
+function globalReset() {
+  humanScore = 0;
+  drawScore = 0;
+  compScore = 0;
+  round = 0;
+
+  document.querySelector(".human-score").textContent = humanScore;
+  document.querySelector(".draw-score").textContent = drawScore;
+  document.querySelector(".comp-score").textContent = compScore;
+  document.querySelector(".rnd-number").textContent = round;
+  document.querySelector(".win").textContent = "?";
+}
