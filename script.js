@@ -42,7 +42,7 @@ function playRound(playerChoice, computerChoice) {
 //3a Use a for loop
 function game() {
   for (let i = 0; i < 5; i++) {
-    const playerChoice = prompt("Rock, Paper or Scissors?").toLowerCase();
+    // const playerChoice = prompt("Rock, Paper or Scissors?").toLowerCase();
     const computerChoice = getComputerChoice();
     playRound(playerChoice, computerChoice);
   }
