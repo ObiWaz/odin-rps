@@ -1,12 +1,17 @@
 const rock = document.querySelector(".rock");
 const paper = document.querySelector(".paper");
 const scissors = document.querySelector(".scissors");
+const reset = document.querySelector(".reset");
 let humanScore = 0;
 let compScore = 0;
 let drawScore = 0;
 let round = 0;
 function roundCount() {
   document.querySelector(".rnd-number").textContent = round;
+}
+
+function displayButton() {
+  reset.style.display = "inline-block";
 }
 
 rock.addEventListener("click", () => {
@@ -17,6 +22,10 @@ paper.addEventListener("click", () => {
 });
 scissors.addEventListener("click", () => {
   playRound("scissors", getComputerChoice());
+});
+
+reset.addEventListener("click", () => {
+  globalReset();
 });
 
 //1 Get computer choice
@@ -36,7 +45,6 @@ function playRound(playerChoice, computerChoice) {
   // console.log("PlayerChoice is " + playerChoice);
   // console.log("ComputerChoice is " + computerChoice);
   // console.log(humanScore, compScore);
-
   if (
     (playerChoice == "rock" && computerChoice == "scissors") ||
     (playerChoice == "paper" && computerChoice == "rock") ||
@@ -65,17 +73,29 @@ function playRound(playerChoice, computerChoice) {
   }
 }
 
-// Check for winner
+// Check for winner OLD CODE
+// function checkWinner() {
+//   if (round === 5) {
+//     displayButton();
+//     if (humanScore > compScore) {
+//       document.querySelector(".win").textContent = "Human!";
+//     } else if (humanScore < compScore) {
+//       document.querySelector(".win").textContent = "Comp!";
+//     } else if (humanScore === compScore) {
+//       document.querySelector(".win").textContent = "Draw";
+//     }
+//   } else return;
+// }
+
 function checkWinner() {
-  if (round === 5) {
-    if (humanScore > compScore) {
+  if (humanScore === 5 || compScore === 5) {
+    displayButton();
+    if (humanScore === 5) {
       document.querySelector(".win").textContent = "Human!";
-    } else if (humanScore < compScore) {
+    } else if (compScore === 5) {
       document.querySelector(".win").textContent = "Comp!";
-    } else if (humanScore === compScore) {
-      document.querySelector(".win").textContent = "Draw";
     }
-  } else return;
+  }
 }
 
 // Reset
@@ -90,4 +110,5 @@ function globalReset() {
   document.querySelector(".comp-score").textContent = compScore;
   document.querySelector(".rnd-number").textContent = round;
   document.querySelector(".win").textContent = "?";
+  reset.style.display = "none";
 }
